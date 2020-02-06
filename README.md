@@ -85,3 +85,28 @@ After the alpha channel is removed, saved PNGs will be slightly smaller, and you
 saveJPEG("demo-no-alpha.jpg", rasterOnLightGray)
 ```
 ![Non-transparent scatterplot with gray background](media/demo-no-alpha.jpg "Scatterplot")
+
+### Usage with GigaSOM.jl
+
+We assume you have the input DataFrame in `data` and cell-to-cluster mapping in `cl` with totally 10 categories:
+
+```julia
+# prepare the embedding first
+som = GigaSOM.initGigaSOM(data, ...)
+som = GigaSOM.trainGigaSOM(som, data, ...)
+e = GigaSOM.embedGigaSOM(som, data, ...)
+
+using GigaScatter
+# plot the clusters
+raster = rasterize((1024, 1024),
+                   Matrix{Float64}(e'),
+		   classColors(cl, clusterPalette(10, alpha=.2)))
+savePNG("gigasom-clusters.png", rasterKernelCircle(2.5, raster))
+# plot the expression from 5th column from the data
+raster = rasterize((1024, 1024),
+                   Matrix{Float64}(e'),
+		   expressionColors(
+		     scaleNorm(Array{Float64}(data[:,5])),
+		     expressionPalette(100, alpha=.2)))
+savePNG("gigasom-expression.png", rasterKernelCircle(2.5, raster))
+```
