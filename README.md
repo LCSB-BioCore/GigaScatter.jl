@@ -84,4 +84,4 @@ After the alpha channel is removed, saved PNGs will be slightly smaller, and you
 ```julia
 saveJPEG("demo-no-alpha.jpg", rasterOnLightGray)
 ```
-![Non-transparent scatterplot with gray background](media/demo-no-alpha.png "Scatterplot")
+![Non-transparent scatterplot with gray background](media/demo-no-alpha.jpg "Scatterplot")
