@@ -1,6 +1,6 @@
 module GigaScatter
 
-    import Images, FileIO, Colors, Distributions
+    import Images, FileIO, ImageMagick, Colors, Distributions
 
     include("colors.jl")
     include("rasterize.jl")
