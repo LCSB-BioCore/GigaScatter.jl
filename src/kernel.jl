@@ -4,7 +4,7 @@
 Expand single-pixel points in a raster (as obtained e.g. from `rasterize`) to small circles with the specified `radius`. Alpha and color is preserved.
 """
 
-function rasterKernelCircle(radius, raf::Array{Float64, 3})::Array{Float64, 3}
+function rasterKernelCircle(radius, raf::Raster)::Raster
     # premultiply the radius
     rt=radius*radius
     # maximum required kernel offset

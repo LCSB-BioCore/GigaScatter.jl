@@ -20,7 +20,7 @@ function rasterize(
     colors::Matrix{Float64};
     xlim = (minimum(points[1,:]), maximum(points[1,:])),
     ylim = (minimum(points[2,:]), maximum(points[2,:]))
-    )::Array{Float64, 3}
+    )::Raster
 
     # Color blending is computed on integers because floats are just slower.
     # `precision` is where the value of float 1.0 is mapped.
