@@ -13,8 +13,8 @@ end
 
 """
     mixRasters(
-        (c1,ia1,w1,n1)::RasterMix,
-        (c2,ia2,w2,n2)::RasterMix)::RasterMix
+        (c1,ia1,w1)::RasterMix,
+        (c2,ia2,w2)::RasterMix)::RasterMix
 
 Combine 2 rasters into mixable form.
 """
@@ -25,7 +25,7 @@ function mixRasters(
 end
 
 """
-    mixedRaster((r,ia,w,n)::RasterMix)::Raster
+    mixedRaster((r,ia,w)::RasterMix)::Raster
 
 Convert several (possibly many) mixed rasters back into normal raster.
 """
