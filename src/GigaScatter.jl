@@ -1,38 +1,30 @@
 module GigaScatter
 
-    import Images, FileIO, ImageMagick, Colors, Distributions
+import Images, FileIO, ImageMagick, Colors, Distributions
 
-    const Raster = Array{Float64, 3}
-    const RasterMix = Tuple{Array{Float64, 3}, Matrix{Float64}, Matrix{Float64}}
+const Raster = Array{Float64,3}
+const RasterMix = Tuple{Array{Float64,3},Matrix{Float64},Matrix{Float64}}
 
-    include("colors.jl")
-    include("rasterize.jl")
-    include("combine.jl")
-    include("kernel.jl")
-    include("export.jl")
+include("colors.jl")
+include("rasterize.jl")
+include("combine.jl")
+include("kernel.jl")
+include("export.jl")
 
-    export #from colors.jl
-        clusterPalette,
-        expressionPalette,
-        classColors,
-        expressionColors,
-        scaleMinMax,
-        scaleNorm
+# colors.jl
+export clusterPalette,
+    expressionPalette, classColors, expressionColors, scaleMinMax, scaleNorm
 
-    export #from rasterize.jl
-        rasterize
+# rasterize.jl
+export rasterize
 
-    export #from kernel.jl
-        rasterKernelCircle
+# kernel.jl
+export rasterKernelCircle
 
-    export #from combine.jl.jl
-        mixableRaster,
-        mixRasters,
-        mixedRaster
+# combine.jl
+export mixableRaster, mixRasters, mixedRaster
 
-    export #from export.jl
-        solidBackground,
-        savePNG,
-        saveJPEG
+# export.jl
+export solidBackground, savePNG, saveJPEG
 
 end # module

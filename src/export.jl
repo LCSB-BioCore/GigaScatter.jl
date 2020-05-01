@@ -7,14 +7,11 @@
 Take a 4-channel `raster` with alpha channel and convert it to 3-channel one by
 adding a background `color`. Useful for saving non-transparent PNGs and JPEGs.
 """
-function solidBackground(
-    raster::Raster,
-    color::Array{Float64,1}=[1.0,1.0,1.0]
-    )::Raster
-    r=copy(raster)
-    r[1,:,:]=r[1,:,:].*r[4,:,:] + color[1].*(1 .-r[4,:,:])
-    r[2,:,:]=r[2,:,:].*r[4,:,:] + color[2].*(1 .-r[4,:,:])
-    r[3,:,:]=r[3,:,:].*r[4,:,:] + color[3].*(1 .-r[4,:,:])
+function solidBackground(raster::Raster, color::Array{Float64,1} = [1.0, 1.0, 1.0])::Raster
+    r = copy(raster)
+    r[1, :, :] = r[1, :, :] .* r[4, :, :] + color[1] .* (1 .- r[4, :, :])
+    r[2, :, :] = r[2, :, :] .* r[4, :, :] + color[2] .* (1 .- r[4, :, :])
+    r[3, :, :] = r[3, :, :] .* r[4, :, :] + color[3] .* (1 .- r[4, :, :])
     r[1:3, :, :]
 end
 
@@ -26,20 +23,15 @@ based on the number of raster channels.
 """
 function savePNG(filename::String, raster::Raster)
     format = Images.RGBA
-    if size(raster,1)==3
+    if size(raster, 1) == 3
         format = Images.RGB
-    elseif size(raster,1)==4
+    elseif size(raster, 1) == 4
         format = Images.RGBA
     else
-        throw(DomainError(
-            size(raster,1),
-            "unsupported number of channels in raster"))
+        throw(DomainError(size(raster, 1), "unsupported number of channels in raster"))
     end
 
-    Images.save(
-        FileIO.File(FileIO.format"PNG", filename),
-        Images.colorview(format, raster)
-    )
+    Images.save(FileIO.File(FileIO.format"PNG", filename), Images.colorview(format, raster))
 end
 
 """
@@ -49,16 +41,14 @@ Save the `raster` to a JPEG `filename`. Only supports 3-channel rasters (see `so
 """
 function saveJPEG(filename::String, raster::Raster)
     format = Images.RGB
-    if size(raster,1)==3
+    if size(raster, 1) == 3
         format = Images.RGB
     else
-        throw(DomainError(
-            size(raster,1),
-            "unsupported number of channels in raster"))
+        throw(DomainError(size(raster, 1), "unsupported number of channels in raster"))
     end
 
     Images.save(
         FileIO.File(FileIO.format"JPEG", filename),
-        Images.colorview(format, raster)
+        Images.colorview(format, raster),
     )
 end
