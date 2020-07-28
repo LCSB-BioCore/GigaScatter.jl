@@ -11,7 +11,7 @@ ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 
 [compat]
-Colors = "^0.11.2"
+Colors = "^0.11.2, 0.12"
 Distributions = "^0.22.4"
 FileIO = "^1.2.1"
 ImageMagick = "^1.1.3"
