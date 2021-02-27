@@ -39,32 +39,43 @@ function rasterize(
     mins = [xlim[1], ylim[1]]
     # actual raster point sizes
     iszs = [res[1] / (xlim[2] - xlim[1]), res[2] / (ylim[2] - ylim[1])]
-    # current point position
-    pos = zeros(Int64, 2)
-    # src color for blending
-    src = zeros(Int64, 4)
-    # dst color for blending
-    dst = zeros(Int64, 4)
 
-    for i = 1:size(points, 2)
+    if size(points,1) != 2 || size(colors) != (4, size(points,2))
+        throw(ArgumentError("wrong input matrix sizes"))
+    end
+
+    @inbounds for i = 1:size(points, 2)
         # convert the input coordinates to raster indexes
-        pos = trunc.(Int64, (points[:, i] - mins) .* iszs) .+ 1
+        posx =  trunc(Int64, (points[1, i] - mins[1]) * iszs[1]) + 1
+        posy =  trunc(Int64, (points[2, i] - mins[2]) * iszs[2]) + 1
+
         # skip if it's off limits
-        if pos[1] < 1 || pos[1] > res[1] || pos[2] < 1 || pos[2] > res[2]
+        if posx < 1 || posx > res[1] || posy < 1 || posy > res[2]
             continue
         end
+
         # get the src color
-        src = trunc.(Int64, precision * colors[:, i])
+        srcr = trunc(Int64, precision * colors[1, i])
+        srcg = trunc(Int64, precision * colors[2, i])
+        srcb = trunc(Int64, precision * colors[3, i])
+        srca = trunc(Int64, precision * colors[4, i])
 
         # premultiply alpha
-        src[1:3] *= src[4]
-        src[1:3] .÷= precision
+        srcr = (srcr * srca) ÷ precision
+        srcg = (srcg * srca) ÷ precision
+        srcb = (srcb * srca) ÷ precision
 
         # get the dst color
-        dst = ra[:, pos[1], pos[2]]
+        dstr = ra[1, posx, posy]
+        dstg = ra[3, posx, posy]
+        dstb = ra[3, posx, posy]
+        dsta = ra[4, posx, posy]
 
         # aaaand it blends!
-        ra[:, pos[1], pos[2]] = src + dst - ((src[4] * dst) .÷ precision)
+        ra[1, posx, posy] = srcr + dstr - ((srca * dstr) ÷ precision)
+        ra[2, posx, posy] = srcg + dstg - ((srca * dstg) ÷ precision)
+        ra[3, posx, posy] = srcb + dstb - ((srca * dstb) ÷ precision)
+        ra[4, posx, posy] = srca + dsta - ((srca * dsta) ÷ precision)
     end
 
     #unmultiply alpha and convert back to floats in range 0..1
