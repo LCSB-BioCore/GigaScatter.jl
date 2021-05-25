@@ -19,7 +19,7 @@ export clusterPalette,
 export rasterize
 
 # kernel.jl
-export rasterKernelCircle
+export rasterKernelCircle, rasterKernelGauss
 
 # combine.jl
 export mixableRaster, mixRasters, mixedRaster
