@@ -44,19 +44,21 @@ end
 
 # data taken from a modified RbYlBu from EmbedSOM, which was originally taken
 # from ColorBrewer and slightly modified
-palRdYlBu = Matrix{Float64}([
-    33 38 149
-    53 101 180
-    100 157 209
-    145 195 226
-    184 217 200
-    255 255 168
-    254 224 144
-    253 174 97
-    244 109 67
-    215 48 39
-    165 0 38
-])
+palRdYlBu = Matrix{Float64}(
+    [
+        33 38 149
+        53 101 180
+        100 157 209
+        145 195 226
+        184 217 200
+        255 255 168
+        254 224 144
+        253 174 97
+        244 109 67
+        215 48 39
+        165 0 38
+    ],
+)
 
 """
     expressionPalette(n; alpha=1.0, palette=palRdYlBu)
@@ -72,8 +74,8 @@ function expressionPalette(
     maxValue::Float64 = 255.0,
 )
     [
-        Colors.RGBA(x[1], x[2], x[3], alpha)
-        for x in [linearPaletteBlend(palette, (i - 1) / (n - 1)) for i = 1:n] / maxValue
+        Colors.RGBA(x[1], x[2], x[3], alpha) for
+        x in [linearPaletteBlend(palette, (i - 1) / (n - 1)) for i = 1:n] / maxValue
     ]
 end
 
@@ -99,10 +101,12 @@ colors usable in `rasterize`, using the `palette` as a color lookup.
 """
 function expressionColors(expressions::Array{Float64,1}, palette)::Matrix{Float64}
     nColors = length(palette)
-    hcat([
-        [palette[c].r, palette[c].g, palette[c].b, palette[c].alpha]
-        for c in Array{Int64,1}(1 .+ trunc.((nColors - 1) * expressions))
-    ]...)
+    hcat(
+        [
+            [palette[c].r, palette[c].g, palette[c].b, palette[c].alpha] for
+            c in Array{Int64,1}(1 .+ trunc.((nColors - 1) * expressions))
+        ]...,
+    )
 end
 
 """
