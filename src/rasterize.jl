@@ -67,7 +67,7 @@ function rasterize(
 
         # get the dst color
         dstr = ra[1, posx, posy]
-        dstg = ra[3, posx, posy]
+        dstg = ra[2, posx, posy]
         dstb = ra[3, posx, posy]
         dsta = ra[4, posx, posy]
 
